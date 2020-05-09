@@ -26,3 +26,15 @@
     background-color: var(--white);
     cursor: pointer;
 }
+
+@media screen and (max-width: 600px) {
+    .container {
+        flex-direction: column;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    .main-menu {
+        width: 100%;
+    }
+}
