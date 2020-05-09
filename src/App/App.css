@@ -1,0 +1,28 @@
+.container {
+    background-color: var(--green);
+    height: 100vh;
+    width: 100%;
+    color: var(--white);
+}
+
+.main-menu {
+    width: 50%;
+    text-align: center;
+}
+
+.main-menu .menu-item {
+    margin: calc(var(--spacing) * 4) auto;
+    padding: var(--spacing);
+    border-radius: var(--spacing);
+    border: 2px solid var(--white);
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 200px;
+    font-weight: bold;
+}
+
+.main-menu .menu-item:hover {
+    color: var(--green);
+    background-color: var(--white);
+    cursor: pointer;
+}
