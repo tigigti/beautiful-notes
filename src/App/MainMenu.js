@@ -4,7 +4,7 @@ import posed from "react-pose";
 const ItemContainer = posed.div({
     start: {},
     end: {
-        staggerChildren: 75,
+        staggerChildren: 100,
     },
 });
 

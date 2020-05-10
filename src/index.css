@@ -41,7 +41,7 @@ h6 {
     height: 2px;
     background-color: var(--white);
     animation-name: headlineAnim;
-    animation-duration: 2s;
+    animation-duration: 1.4s;
     width: 100%;
 }
 
