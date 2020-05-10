@@ -1,0 +1,26 @@
+.todo-item {
+    display: flex;
+    flex-direction: row;
+    margin: calc(3 * var(--spacing)) 0;
+    align-items: center;
+}
+
+.todo-logo {
+    margin-right: var(--spacing);
+    border: 1px solid;
+    padding: var(--spacing);
+    height: 20px;
+    width: 20px;
+}
+
+.todo-text {
+    position: relative;
+}
+
+.todo-text .todo-veil {
+    position: absolute;
+    background-color: var(--green);
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
