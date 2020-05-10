@@ -2,12 +2,12 @@ import { createStore, combineReducers } from "redux";
 
 // Get State
 import AppState from "./App/state";
-import MainState from "./Main/state";
+import NoteListState from "./NoteList/state";
 
 // Create root
 const rootReducer = combineReducers({
-    [AppState.name]: AppState.reducer,
-    [MainState.name]: MainState.reducer,
+  [AppState.name]: AppState.reducer,
+  [NoteListState.name]: NoteListState.reducer
 });
 
 // Create Store
