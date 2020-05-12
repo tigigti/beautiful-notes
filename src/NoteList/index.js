@@ -3,7 +3,7 @@ import { getTodos, addTodo } from "./state";
 import { connect } from "react-redux";
 import "./style.css";
 import posed from "react-pose";
-import { DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const TodoList = posed.div({
     start: {},
@@ -28,17 +28,38 @@ function NoteList({ todos, addTodo }) {
     }, []);
 
     return (
-        <TodoList pose={todoAnim} className="todo-list">
-            {todos.map((todo, i) => (
-                <div className="todo-item" key={todo}>
-                    <TodoLogo className="todo-logo flex-center">{i+1}</TodoLogo>
-                    <div className="todo-text">
-                        {todo}
-                        <TodoVeil className="todo-veil" />
-                    </div>
-                </div>
-            ))}
-        </TodoList>
+        <DragDropContext>
+            <Droppable droppableId={"droppable"}>
+                {(provided) => (
+                    <TodoList
+                        pose={todoAnim}
+                        className="todo-list"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                    >
+                        {todos.map((todo, i) => (
+                            <Draggable draggableId={todo} index={i} key={todo}>
+                                {(provided) => (
+                                    <div
+                                        className="todo-item"
+                                        {...provided.dragHandleProps}
+                                        {...provided.draggableProps}
+                                        ref={provided.innerRef}
+                                    >
+                                        <TodoLogo className="todo-logo flex-center">{i + 1}</TodoLogo>
+                                        <div className="todo-text">
+                                            {todo}
+                                            <TodoVeil className="todo-veil" />
+                                        </div>
+                                    </div>
+                                )}
+                            </Draggable>
+                        ))}
+                        {provided.placeholder}
+                    </TodoList>
+                )}
+            </Droppable>
+        </DragDropContext>
     );
 }
 
