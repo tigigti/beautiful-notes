@@ -19,6 +19,7 @@
 
 .todo-text input,
 .todo-text .todo-input {
+    position: relative;
     border: none;
     background-color: transparent;
     color: var(--white);
@@ -29,6 +30,7 @@
     border-bottom: 1px solid transparent;
     outline: none;
 }
+
 
 .todo-text .todo-input:focus {
     transition: border 0.3s;

@@ -5,6 +5,7 @@ import "./style.css";
 import posed from "react-pose";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TextareaAutosize from "react-textarea-autosize";
+import HomeButton from "../App/HomeButton";
 
 const TodoList = posed.div({
     start: {},
@@ -41,6 +42,7 @@ function NoteList({ todos, addTodo, updateTodo }) {
 
     return (
         <DragDropContext onDragEnd={dragEnd}>
+            <HomeButton />
             <Droppable droppableId={"droppable"}>
                 {(provided) => (
                     <TodoList
