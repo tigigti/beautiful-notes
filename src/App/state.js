@@ -5,7 +5,7 @@ const ACTION = `${name}/ACTION`;
 
 // Reducer
 const initialState = {
-    someKey: "some Value"
+    someKey: "some Value",
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
         case ACTION:
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
             };
 
         default:
@@ -22,15 +22,15 @@ const reducer = (state = initialState, action) => {
 };
 
 // Action Creator
-export const commitAction = payload => ({
+export const commitAction = (payload) => ({
     type: ACTION,
-    payload
+    payload,
 });
 
 // Selector
-export const getSomeKey = state => state[name].someKey || initialState.someKey;
+export const getSomeKey = (state) => state[name].someKey || initialState.someKey;
 
 export default {
+    name,
     reducer,
-    name
 };

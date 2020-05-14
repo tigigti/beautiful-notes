@@ -1,4 +1,5 @@
 import { v4 } from "uuid";
+import { loadState } from "../localStorage";
 
 const name = "notelist";
 
@@ -7,30 +8,15 @@ const ADD_TODO = `${name}/ADD_TODO`;
 const UPDATE_TODO = `${name}/UPDATE_TODO`;
 const MOVE_TODO = `${name}/MOVE_TODO`;
 const DELETE_TODO = `${name}/DELETE_TODO`;
+const RESET_TODO = `${name}/RESET_TODO`;
 
 // Reducer
+
 const initialState = {
-    todos: [
-        {
-            text: "display todos",
-            id: "1",
-        },
-        {
-            text: "style them",
-            id: "2",
-        },
-        {
-            text: "animate them",
-            id: "3",
-        },
-        {
-            text: "implement 'add todo' functionality",
-            id: "4",
-        },
-    ],
+    todos: [],
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = loadState() === undefined ? initialState : loadState()[name], action) => {
     switch (action.type) {
         case ADD_TODO:
             return {
@@ -78,6 +64,9 @@ const reducer = (state = initialState, action) => {
                 todos: updatedList,
             };
 
+        case RESET_TODO:
+            return initialState;
+
         default:
             return state;
     }
@@ -104,10 +93,14 @@ export const deleteTodo = (payload) => ({
     payload,
 });
 
+export const resetTodo = () => ({
+    type: RESET_TODO,
+});
+
 // Selector
 export const getTodos = (state) => state[name].todos || initialState.todos;
 
 export default {
-    reducer,
     name,
+    reducer,
 };

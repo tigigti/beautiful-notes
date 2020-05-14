@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import posed from "react-pose";
 import { Link } from "react-router-dom";
+import { clearStorage } from "../localStorage";
+import { connect } from "react-redux";
+import { resetTodo } from "../NoteList/state";
 
 const ItemContainer = posed.div({
     start: {},
@@ -31,24 +34,37 @@ const Item = posed.a({
     },
 });
 
-export default function MainMenu() {
+function MainMenu({ resetTodo }) {
     const [menuState, setMenuState] = useState("start");
 
     useEffect(() => {
         setMenuState("end");
     }, []);
 
+    const clearCache = () => {
+        clearStorage();
+        resetTodo();
+    };
+
     return (
         <ItemContainer pose={[menuState]} className="main-menu">
             <RouterItem className="menu-item" to="/notes">
                 Start
             </RouterItem>
-            <Item className="menu-item" href="#todo">
+            <Item className="menu-item" href="#" onClick={() => clearCache()}>
                 Clear Cache
             </Item>
-            <Item className="menu-item" href="https://github.com/tigigti/beautiful-notes">
+            <Item className="menu-item" href="https://github.com/tigigti/beautiful-notes" target="_blank">
                 GitHub
             </Item>
         </ItemContainer>
     );
 }
+
+const mapState = (state) => ({});
+
+const mapDispatch = {
+    resetTodo,
+};
+
+export default connect(mapState, mapDispatch)(MainMenu);
