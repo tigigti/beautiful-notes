@@ -1,27 +1,30 @@
+import { v4 } from "uuid";
+
 const name = "notelist";
 
 // Constants
 const ADD_TODO = `${name}/ADD_TODO`;
 const UPDATE_TODO = `${name}/UPDATE_TODO`;
+const MOVE_TODO = `${name}/MOVE_TODO`;
 
 // Reducer
 const initialState = {
     todos: [
         {
             text: "display todos",
-            index: 1,
+            id: 1,
         },
         {
             text: "style them",
-            index: 2,
+            id: 2,
         },
         {
             text: "animate them",
-            index: 3,
+            id: 3,
         },
         {
             text: "implement 'add todo' functionality",
-            index: 4,
+            id: 4,
         },
     ],
 };
@@ -31,7 +34,13 @@ const reducer = (state = initialState, action) => {
         case ADD_TODO:
             return {
                 ...state,
-                todos: [...state.todos, action.payload],
+                todos: [
+                    ...state.todos,
+                    {
+                        text: action.payload,
+                        id: v4(),
+                    },
+                ],
             };
 
         case UPDATE_TODO:
@@ -44,7 +53,20 @@ const reducer = (state = initialState, action) => {
             });
             return {
                 ...state,
-                todos: [...updatedTodos],
+                todos: updatedTodos,
+            };
+
+        case MOVE_TODO:
+            const newOrder = state.todos;
+            const updatedTodo = newOrder.splice(action.payload.oldIndex, 1)[0];
+            newOrder.splice(action.payload.newIndex, 0, updatedTodo);
+            console.log(updatedTodo, newOrder);
+
+            return {
+                ...state,
+                // todos: {
+                //     ...newOrder,
+                // },
             };
 
         default:
@@ -60,6 +82,11 @@ export const addTodo = (payload) => ({
 
 export const updateTodo = (payload) => ({
     type: UPDATE_TODO,
+    payload,
+});
+
+export const moveTodo = (payload) => ({
+    type: MOVE_TODO,
     payload,
 });
 

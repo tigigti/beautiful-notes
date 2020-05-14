@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getTodos, addTodo, updateTodo } from "./state";
+import { getTodos, addTodo, updateTodo, moveTodo } from "./state";
 import { connect } from "react-redux";
 import "./style.css";
 import posed from "react-pose";
@@ -22,15 +22,28 @@ const TodoVeil = posed.div({
     end: { width: "0%", display: "none" },
 });
 
-function NoteList({ todos, addTodo, updateTodo }) {
+function NoteList({ todos, addTodo, updateTodo, moveTodo }) {
     const [todoAnim, setTodoAnim] = useState("start");
+    const [newTodo, setNewTodo] = useState("");
 
     useEffect(() => {
         setTodoAnim("end");
     }, []);
 
     const dragEnd = (result) => {
-        console.log("Drag ended", result);
+        const { destination, source } = result;
+
+        if (!destination) return;
+
+        // exit if it was dropped on the same spot
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            return;
+        }
+
+        moveTodo({
+            oldIndex: source.index,
+            newIndex: destination.index,
+        });
     };
 
     const todoChanged = (e, index) => {
@@ -40,47 +53,66 @@ function NoteList({ todos, addTodo, updateTodo }) {
         });
     };
 
+    const submitTodo = (e) => {
+        e.preventDefault();
+        addTodo(newTodo);
+        setNewTodo("");
+    };
+
     return (
         <DragDropContext onDragEnd={dragEnd}>
             <HomeButton />
-            <Droppable droppableId={"droppable"}>
-                {(provided) => (
-                    <TodoList
-                        pose={todoAnim}
-                        className="todo-list"
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                    >
-                        {todos.map((todo, i) => (
-                            <Draggable draggableId={todo.text} index={i} key={`todo-${i}`}>
-                                {(provided) => (
-                                    <div
-                                        className="todo-item"
-                                        {...provided.dragHandleProps}
-                                        {...provided.draggableProps}
-                                        ref={provided.innerRef}
-                                        tabIndex={-1}
-                                    >
-                                        <TodoLogo className="todo-logo flex-center" tabIndex={-1}>
-                                            {i + 1}
-                                        </TodoLogo>
-                                        <div className="todo-text">
-                                            <TextareaAutosize
-                                                className="todo-input"
-                                                value={todo.text}
-                                                spellCheck={false}
-                                                onChange={(e) => todoChanged(e, i)}
-                                            />
-                                            <TodoVeil className="todo-veil" />
+            <div className="flex-column">
+                <form onSubmit={submitTodo} className="flex-column">
+                    <label htmlFor="new-todo-input">New Task:</label>
+                    <input
+                        type="text"
+                        name="new-todo-input"
+                        value={newTodo}
+                        autoComplete={"off"}
+                        spellCheck={false}
+                        onChange={(e) => setNewTodo(e.target.value)}
+                    />
+                </form>
+                <Droppable droppableId={"droppable"}>
+                    {(provided) => (
+                        <TodoList
+                            pose={todoAnim}
+                            className="todo-list"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {todos.map((todo, i) => (
+                                <Draggable draggableId={todo.text} index={i} key={`todo-${todo.id}`}>
+                                    {(provided) => (
+                                        <div
+                                            className="todo-item"
+                                            {...provided.dragHandleProps}
+                                            {...provided.draggableProps}
+                                            ref={provided.innerRef}
+                                            tabIndex={-1}
+                                        >
+                                            <TodoLogo className="todo-logo flex-center" tabIndex={-1}>
+                                                {i + 1}
+                                            </TodoLogo>
+                                            <div className="todo-text">
+                                                <TextareaAutosize
+                                                    className="todo-input"
+                                                    value={todo.text}
+                                                    spellCheck={false}
+                                                    onChange={(e) => todoChanged(e, i)}
+                                                />
+                                                <TodoVeil className="todo-veil" />
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </TodoList>
-                )}
-            </Droppable>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </TodoList>
+                    )}
+                </Droppable>
+            </div>
         </DragDropContext>
     );
 }
@@ -92,6 +124,7 @@ const mapState = (state) => ({
 const mapDispatch = {
     addTodo,
     updateTodo,
+    moveTodo,
 };
 
 export default connect(mapState, mapDispatch)(NoteList);

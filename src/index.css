@@ -31,6 +31,11 @@ h6 {
     align-items: center;
 }
 
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
 .animated-headline {
     position: relative;
 }
@@ -44,6 +49,16 @@ h6 {
     animation-name: headlineAnim;
     animation-duration: 1.4s;
     width: 100%;
+}
+
+input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--white);
+    padding: var(--spacing) calc(var(--spacing) / 2);
+    color: var(--white);
+    outline: none;
+    font-size: 16px;
 }
 
 @keyframes headlineAnim {
