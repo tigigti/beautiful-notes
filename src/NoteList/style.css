@@ -1,21 +1,36 @@
+.todo-list-container {
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 80%;
+    max-width: 600px;
+    overflow-x: hidden;
+}
+
+.todo-list {
+    width: 100%;
+    position: relative;
+}
+
 .todo-item {
     display: flex;
     flex-direction: row;
     margin: calc(3 * var(--spacing)) 0;
     align-items: center;
+    width: 100%;
 }
 
 .todo-logo {
     margin-right: var(--spacing);
     border: 1px solid;
     padding: var(--spacing);
-    height: 20px;
-    width: 20px;
     background-color: var(--green);
 }
 
 .todo-text {
     position: relative;
+    width: 100%;
+    margin-right: var(--spacing);
 }
 
 .todo-text input,
@@ -30,6 +45,7 @@
     padding: var(--spacing) 0 calc(var(--spacing) - 1px) 0;
     border-bottom: 1px solid transparent;
     outline: none;
+    width: 100%;
 }
 
 .todo-text .todo-input:focus {
@@ -48,8 +64,20 @@
 .todo-item .delete-todo {
     cursor: pointer;
     transition: all 0.2s;
+    background-color: var(--dark-green);
+    padding: calc(var(--spacing) + 1px);
+    font-size: 16px;
+    margin: 0 var(--spacing) 0 auto;
 }
 
 .todo-item .delete-todo:hover {
     color: var(--danger);
+}
+
+.todo-logo,
+.todo-item .delete-todo {
+    border-radius: 4px;
+    height: 20px;
+    width: 20px;
+    opacity: 0;
 }

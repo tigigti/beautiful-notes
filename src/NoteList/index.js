@@ -23,6 +23,11 @@ const TodoVeil = posed.div({
     end: { width: "0%", display: "none" },
 });
 
+const TodoDeleteIcon = posed.div({
+    start: { opacity: 0 },
+    end: { opacity: 1 },
+});
+
 function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
     const [todoAnim, setTodoAnim] = useState("start");
     const [newTodo, setNewTodo] = useState("");
@@ -67,7 +72,7 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
     return (
         <DragDropContext onDragEnd={dragEnd}>
             <HomeButton />
-            <div className="flex-column">
+            <div className="flex-column todo-list-container">
                 <form onSubmit={submitTodo} className="flex-column">
                     <label htmlFor="new-todo-input">New Task:</label>
                     <input
@@ -109,9 +114,12 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
                                                 />
                                                 <TodoVeil className="todo-veil" />
                                             </div>
-                                            <div className="delete-todo" onClick={() => deleteTodoAction(todo.id)}>
+                                            <TodoDeleteIcon
+                                                className="delete-todo flex-center"
+                                                onClick={() => deleteTodoAction(todo.id)}
+                                            >
                                                 <FiTrash2 />
-                                            </div>
+                                            </TodoDeleteIcon>
                                         </div>
                                     )}
                                 </Draggable>
