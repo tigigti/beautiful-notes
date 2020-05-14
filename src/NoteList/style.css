@@ -44,3 +44,12 @@
     bottom: 0;
     right: 0;
 }
+
+.todo-item .delete-todo {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.todo-item .delete-todo:hover {
+    color: var(--danger);
+}

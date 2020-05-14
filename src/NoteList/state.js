@@ -6,25 +6,26 @@ const name = "notelist";
 const ADD_TODO = `${name}/ADD_TODO`;
 const UPDATE_TODO = `${name}/UPDATE_TODO`;
 const MOVE_TODO = `${name}/MOVE_TODO`;
+const DELETE_TODO = `${name}/DELETE_TODO`;
 
 // Reducer
 const initialState = {
     todos: [
         {
             text: "display todos",
-            id: 1,
+            id: "1",
         },
         {
             text: "style them",
-            id: 2,
+            id: "2",
         },
         {
             text: "animate them",
-            id: 3,
+            id: "3",
         },
         {
             text: "implement 'add todo' functionality",
-            id: 4,
+            id: "4",
         },
     ],
 };
@@ -57,16 +58,24 @@ const reducer = (state = initialState, action) => {
             };
 
         case MOVE_TODO:
-            const newOrder = state.todos;
+            const newOrder = Array.from(state.todos);
             const updatedTodo = newOrder.splice(action.payload.oldIndex, 1)[0];
             newOrder.splice(action.payload.newIndex, 0, updatedTodo);
-            console.log(updatedTodo, newOrder);
 
             return {
                 ...state,
-                // todos: {
-                //     ...newOrder,
-                // },
+                todos: newOrder,
+            };
+
+        case DELETE_TODO:
+            const updatedList = [];
+            state.todos.forEach((todo) => {
+                if (todo.id !== action.payload) return updatedList.push(todo);
+            });
+
+            return {
+                ...state,
+                todos: updatedList,
             };
 
         default:
@@ -87,6 +96,11 @@ export const updateTodo = (payload) => ({
 
 export const moveTodo = (payload) => ({
     type: MOVE_TODO,
+    payload,
+});
+
+export const deleteTodo = (payload) => ({
+    type: DELETE_TODO,
     payload,
 });
 

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getTodos, addTodo, updateTodo, moveTodo } from "./state";
+import { getTodos, addTodo, updateTodo, moveTodo, deleteTodo } from "./state";
 import { connect } from "react-redux";
 import "./style.css";
 import posed from "react-pose";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TextareaAutosize from "react-textarea-autosize";
 import HomeButton from "../App/HomeButton";
+import { FiTrash2 } from "react-icons/fi";
 
 const TodoList = posed.div({
     start: {},
@@ -22,7 +23,7 @@ const TodoVeil = posed.div({
     end: { width: "0%", display: "none" },
 });
 
-function NoteList({ todos, addTodo, updateTodo, moveTodo }) {
+function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
     const [todoAnim, setTodoAnim] = useState("start");
     const [newTodo, setNewTodo] = useState("");
 
@@ -57,6 +58,10 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo }) {
         e.preventDefault();
         addTodo(newTodo);
         setNewTodo("");
+    };
+
+    const deleteTodoAction = (id) => {
+        deleteTodo(id);
     };
 
     return (
@@ -104,6 +109,9 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo }) {
                                                 />
                                                 <TodoVeil className="todo-veil" />
                                             </div>
+                                            <div className="delete-todo" onClick={() => deleteTodoAction(todo.id)}>
+                                                <FiTrash2 />
+                                            </div>
                                         </div>
                                     )}
                                 </Draggable>
@@ -125,6 +133,7 @@ const mapDispatch = {
     addTodo,
     updateTodo,
     moveTodo,
+    deleteTodo,
 };
 
 export default connect(mapState, mapDispatch)(NoteList);
