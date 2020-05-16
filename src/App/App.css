@@ -6,6 +6,25 @@
     overflow-y: hidden;
 }
 
+.animated-bg {
+    animation: bg-gradient 15s ease infinite;
+    background: linear-gradient(-45deg, var(--green), rgb(0, 139, 116), darkgreen, lightblue);
+    background-size: 400% 400%;
+}
+
+@keyframes bg-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .main-menu {
     width: 50%;
     text-align: center;
@@ -72,6 +91,7 @@
     line-height: 45px;
     background-color: var(--dark-green);
     text-align: center;
+    color: var(--white);
 }
 
 @keyframes blendIn {

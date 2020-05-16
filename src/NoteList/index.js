@@ -82,69 +82,71 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
     };
 
     return (
-        <DragDropContext onDragEnd={dragEnd}>
-            <HomeButton />
-            <div className="flex-column todo-list-container">
-                <form onSubmit={submitTodo} className="flex-column todo-input-form">
-                    <label htmlFor="new-todo-input">New Task:</label>
-                    <input
-                        type="text"
-                        name="new-todo-input"
-                        value={newTodo}
-                        autoComplete={"off"}
-                        spellCheck={false}
-                        onChange={(e) => setNewTodo(e.target.value)}
-                    />
-                </form>
-                <Droppable droppableId={"droppable"}>
-                    {(provided) => (
-                        <div className="todo-list-wrapper">
-                            <TodoList
-                                pose={todoAnim}
-                                className="todo-list"
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                            >
-                                {todos.map((todo, i) => (
-                                    <Draggable draggableId={`todo-${todo.id}`} index={i} key={`todo-${todo.id}`}>
-                                        {(provided) => (
-                                            <div
-                                                className="todo-item"
-                                                {...provided.dragHandleProps}
-                                                {...provided.draggableProps}
-                                                ref={provided.innerRef}
-                                                tabIndex={-1}
-                                            >
-                                                <TodoLogo className="todo-logo flex-center" tabIndex={-1}>
-                                                    {i + 1}
-                                                </TodoLogo>
-                                                <div className="todo-text">
-                                                    <TextareaAutosize
-                                                        className="todo-input"
-                                                        value={todo.text}
-                                                        spellCheck={false}
-                                                        onChange={(e) => todoChanged(e, i)}
-                                                    />
-                                                    {i % 2 === 0 && <TodoVeil className="todo-veil" />}
-                                                    {i % 2 === 1 && <TodoVeil className="todo-veil dark" />}
-                                                </div>
-                                                <TodoDeleteIcon
-                                                    className="delete-todo flex-center"
-                                                    onClick={() => deleteTodoAction(todo.id)}
+        <div className="container flex-center">
+            <DragDropContext onDragEnd={dragEnd}>
+                <HomeButton />
+                <div className="flex-column todo-list-container">
+                    <form onSubmit={submitTodo} className="flex-column todo-input-form">
+                        <label htmlFor="new-todo-input">New Task:</label>
+                        <input
+                            type="text"
+                            name="new-todo-input"
+                            value={newTodo}
+                            autoComplete={"off"}
+                            spellCheck={false}
+                            onChange={(e) => setNewTodo(e.target.value)}
+                        />
+                    </form>
+                    <Droppable droppableId={"droppable"}>
+                        {(provided) => (
+                            <div className="todo-list-wrapper">
+                                <TodoList
+                                    pose={todoAnim}
+                                    className="todo-list"
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {todos.map((todo, i) => (
+                                        <Draggable draggableId={`todo-${todo.id}`} index={i} key={`todo-${todo.id}`}>
+                                            {(provided) => (
+                                                <div
+                                                    className="todo-item"
+                                                    {...provided.dragHandleProps}
+                                                    {...provided.draggableProps}
+                                                    ref={provided.innerRef}
+                                                    tabIndex={-1}
                                                 >
-                                                    <FiTrash2 />
-                                                </TodoDeleteIcon>
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </TodoList>
-                        </div>
-                    )}
-                </Droppable>
-            </div>
-        </DragDropContext>
+                                                    <TodoLogo className="todo-logo flex-center" tabIndex={-1}>
+                                                        {i + 1}
+                                                    </TodoLogo>
+                                                    <div className="todo-text">
+                                                        <TextareaAutosize
+                                                            className="todo-input"
+                                                            value={todo.text}
+                                                            spellCheck={false}
+                                                            onChange={(e) => todoChanged(e, i)}
+                                                        />
+                                                        {i % 2 === 0 && <TodoVeil className="todo-veil" />}
+                                                        {i % 2 === 1 && <TodoVeil className="todo-veil dark" />}
+                                                    </div>
+                                                    <TodoDeleteIcon
+                                                        className="delete-todo flex-center"
+                                                        onClick={() => deleteTodoAction(todo.id)}
+                                                    >
+                                                        <FiTrash2 />
+                                                    </TodoDeleteIcon>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </TodoList>
+                            </div>
+                        )}
+                    </Droppable>
+                </div>
+            </DragDropContext>
+        </div>
     );
 }
 
