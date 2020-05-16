@@ -1,6 +1,6 @@
 .todo-list-container {
     position: relative;
-    width: 100%;
+    width: 95%;
     overflow-x: hidden;
     overflow-y: hidden;
     padding: 0 var(--spacing);
@@ -14,7 +14,7 @@
 
 .todo-list-container .todo-list-wrapper .todo-list,
 .todo-list-container .todo-input-form {
-    width: 100%;
+    width: 95%;
     max-width: 400px;
     margin: auto;
 }

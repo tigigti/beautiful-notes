@@ -45,6 +45,7 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
         if (firstRender) return setFirstRender(false);
         const todoList = document.querySelector(".todo-list");
         todoList.scrollIntoView({ block: "end" });
+        // eslint-disable-next-line
     }, [todoLength]);
 
     const dragEnd = (result) => {

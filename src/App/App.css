@@ -1,9 +1,10 @@
 .container {
     background-color: var(--green);
-    height: 100vh;
+    height: calc(100vh - 48px);
     width: 100%;
     color: var(--white);
     overflow-y: hidden;
+    padding-top: 48px;
 }
 
 .animated-bg {
