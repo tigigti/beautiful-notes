@@ -3,7 +3,7 @@ import posed from "react-pose";
 import { Link } from "react-router-dom";
 import { clearStorage } from "../localStorage";
 import { connect } from "react-redux";
-import { resetTodo } from "../NoteList/state";
+import { resetState } from "./state";
 
 const ItemContainer = posed.div({
     start: {},
@@ -34,7 +34,7 @@ const Item = posed.a({
     },
 });
 
-function MainMenu({ resetTodo }) {
+function MainMenu({ resetState }) {
     const [menuState, setMenuState] = useState("start");
 
     useEffect(() => {
@@ -43,7 +43,7 @@ function MainMenu({ resetTodo }) {
 
     const clearCache = () => {
         clearStorage();
-        resetTodo();
+        resetState();
     };
 
     return (
@@ -64,7 +64,7 @@ function MainMenu({ resetTodo }) {
 const mapState = (state) => ({});
 
 const mapDispatch = {
-    resetTodo,
+    resetState,
 };
 
 export default connect(mapState, mapDispatch)(MainMenu);

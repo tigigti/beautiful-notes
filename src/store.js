@@ -16,6 +16,7 @@ const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && wi
 
 store.subscribe(() => {
     saveState(store.getState());
+    console.log("state saved");
 });
 
 export default store;

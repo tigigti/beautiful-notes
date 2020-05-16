@@ -1,20 +1,26 @@
+import { loadState } from "../localStorage";
+
 const name = "global";
 
 // Constants
-const ACTION = `${name}/ACTION`;
+export const RESET_STATE = `${name}/RESET_STATE`;
+const ACCEPT_COOKIE = `${name}/ACCEPT_COOKIE`;
 
 // Reducer
 const initialState = {
-    someKey: "some Value",
+    cookiesAccepted: false,
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = loadState() === undefined ? initialState : loadState()[name], action) => {
     switch (action.type) {
-        case ACTION:
+        case ACCEPT_COOKIE:
             return {
                 ...state,
-                ...action.payload,
+                cookiesAccepted: true,
             };
+
+        case RESET_STATE:
+            return initialState;
 
         default:
             return state;
@@ -22,13 +28,16 @@ const reducer = (state = initialState, action) => {
 };
 
 // Action Creator
-export const commitAction = (payload) => ({
-    type: ACTION,
-    payload,
+export const acceptCookie = () => ({
+    type: ACCEPT_COOKIE,
+});
+
+export const resetState = () => ({
+    type: RESET_STATE,
 });
 
 // Selector
-export const getSomeKey = (state) => state[name].someKey || initialState.someKey;
+export const getCookieCompliance = (state) => state[name].cookiesAccepted || initialState.cookiesAccepted;
 
 export default {
     name,

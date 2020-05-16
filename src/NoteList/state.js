@@ -1,5 +1,6 @@
 import { v4 } from "uuid";
 import { loadState } from "../localStorage";
+import { RESET_STATE } from "../App/state";
 
 const name = "notelist";
 
@@ -8,10 +9,8 @@ const ADD_TODO = `${name}/ADD_TODO`;
 const UPDATE_TODO = `${name}/UPDATE_TODO`;
 const MOVE_TODO = `${name}/MOVE_TODO`;
 const DELETE_TODO = `${name}/DELETE_TODO`;
-const RESET_TODO = `${name}/RESET_TODO`;
 
 // Reducer
-
 const initialState = {
     todos: [],
 };
@@ -64,7 +63,7 @@ const reducer = (state = loadState() === undefined ? initialState : loadState()[
                 todos: updatedList,
             };
 
-        case RESET_TODO:
+        case RESET_STATE:
             return initialState;
 
         default:
@@ -91,10 +90,6 @@ export const moveTodo = (payload) => ({
 export const deleteTodo = (payload) => ({
     type: DELETE_TODO,
     payload,
-});
-
-export const resetTodo = () => ({
-    type: RESET_TODO,
 });
 
 // Selector
