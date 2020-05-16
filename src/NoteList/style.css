@@ -26,6 +26,8 @@
     align-items: center;
     width: 100%;
     border-radius: var(--spacing);
+    position: relative;
+    background-color: var(--green);
 }
 
 .todo-logo {
@@ -33,6 +35,7 @@
     border: 1px solid;
     padding: var(--spacing);
     background-color: var(--green);
+    /* background-color: transparent; */
 }
 
 .todo-list .todo-item:nth-child(even) {
@@ -68,12 +71,17 @@
     border-bottom: 1px solid var(--white);
 }
 
-.todo-text .todo-veil {
+.todo-veil {
     position: absolute;
     background-color: var(--green);
     top: 0;
     bottom: 0;
     right: 0;
+    z-index: 999;
+}
+
+.todo-veil.dark {
+    background-color: var(--dark-green);
 }
 
 .todo-item .delete-todo {

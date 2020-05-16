@@ -10,7 +10,7 @@ import { FiTrash2 } from "react-icons/fi";
 
 const TodoList = posed.div({
     start: {},
-    end: { staggerChildren: 150 },
+    end: { staggerChildren: 25 },
 });
 
 const TodoLogo = posed.div({
@@ -106,7 +106,7 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
                                 ref={provided.innerRef}
                             >
                                 {todos.map((todo, i) => (
-                                    <Draggable draggableId={todo.text} index={i} key={`todo-${todo.id}`}>
+                                    <Draggable draggableId={`todo-${todo.id}`} index={i} key={`todo-${todo.id}`}>
                                         {(provided) => (
                                             <div
                                                 className="todo-item"
@@ -125,7 +125,8 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
                                                         spellCheck={false}
                                                         onChange={(e) => todoChanged(e, i)}
                                                     />
-                                                    <TodoVeil className="todo-veil" />
+                                                    {i % 2 === 0 && <TodoVeil className="todo-veil" />}
+                                                    {i % 2 === 1 && <TodoVeil className="todo-veil dark" />}
                                                 </div>
                                                 <TodoDeleteIcon
                                                     className="delete-todo flex-center"
