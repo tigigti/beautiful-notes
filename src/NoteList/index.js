@@ -31,10 +31,21 @@ const TodoDeleteIcon = posed.div({
 function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
     const [todoAnim, setTodoAnim] = useState("start");
     const [newTodo, setNewTodo] = useState("");
+    const [todoLength, setTodoLength] = useState(todos.length);
+
+    // Used to keep the list to scroll to the end on first render
+    const [firstRender, setFirstRender] = useState(true);
 
     useEffect(() => {
         setTodoAnim("end");
     }, []);
+
+    // scroll the newly created todo into view
+    useEffect(() => {
+        if (firstRender) return setFirstRender(false);
+        const todoList = document.querySelector(".todo-list");
+        todoList.scrollIntoView({ block: "end" });
+    }, [todoLength]);
 
     const dragEnd = (result) => {
         const { destination, source } = result;
@@ -63,6 +74,7 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
         e.preventDefault();
         addTodo(newTodo);
         setNewTodo("");
+        setTodoLength(todoLength + 1);
     };
 
     const deleteTodoAction = (id) => {
@@ -73,7 +85,7 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
         <DragDropContext onDragEnd={dragEnd}>
             <HomeButton />
             <div className="flex-column todo-list-container">
-                <form onSubmit={submitTodo} className="flex-column">
+                <form onSubmit={submitTodo} className="flex-column todo-input-form">
                     <label htmlFor="new-todo-input">New Task:</label>
                     <input
                         type="text"
@@ -86,46 +98,48 @@ function NoteList({ todos, addTodo, updateTodo, moveTodo, deleteTodo }) {
                 </form>
                 <Droppable droppableId={"droppable"}>
                     {(provided) => (
-                        <TodoList
-                            pose={todoAnim}
-                            className="todo-list"
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                        >
-                            {todos.map((todo, i) => (
-                                <Draggable draggableId={todo.text} index={i} key={`todo-${todo.id}`}>
-                                    {(provided) => (
-                                        <div
-                                            className="todo-item"
-                                            {...provided.dragHandleProps}
-                                            {...provided.draggableProps}
-                                            ref={provided.innerRef}
-                                            tabIndex={-1}
-                                        >
-                                            <TodoLogo className="todo-logo flex-center" tabIndex={-1}>
-                                                {i + 1}
-                                            </TodoLogo>
-                                            <div className="todo-text">
-                                                <TextareaAutosize
-                                                    className="todo-input"
-                                                    value={todo.text}
-                                                    spellCheck={false}
-                                                    onChange={(e) => todoChanged(e, i)}
-                                                />
-                                                <TodoVeil className="todo-veil" />
-                                            </div>
-                                            <TodoDeleteIcon
-                                                className="delete-todo flex-center"
-                                                onClick={() => deleteTodoAction(todo.id)}
+                        <div className="todo-list-wrapper">
+                            <TodoList
+                                pose={todoAnim}
+                                className="todo-list"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {todos.map((todo, i) => (
+                                    <Draggable draggableId={todo.text} index={i} key={`todo-${todo.id}`}>
+                                        {(provided) => (
+                                            <div
+                                                className="todo-item"
+                                                {...provided.dragHandleProps}
+                                                {...provided.draggableProps}
+                                                ref={provided.innerRef}
+                                                tabIndex={-1}
                                             >
-                                                <FiTrash2 />
-                                            </TodoDeleteIcon>
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </TodoList>
+                                                <TodoLogo className="todo-logo flex-center" tabIndex={-1}>
+                                                    {i + 1}
+                                                </TodoLogo>
+                                                <div className="todo-text">
+                                                    <TextareaAutosize
+                                                        className="todo-input"
+                                                        value={todo.text}
+                                                        spellCheck={false}
+                                                        onChange={(e) => todoChanged(e, i)}
+                                                    />
+                                                    <TodoVeil className="todo-veil" />
+                                                </div>
+                                                <TodoDeleteIcon
+                                                    className="delete-todo flex-center"
+                                                    onClick={() => deleteTodoAction(todo.id)}
+                                                >
+                                                    <FiTrash2 />
+                                                </TodoDeleteIcon>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </TodoList>
+                        </div>
                     )}
                 </Droppable>
             </div>

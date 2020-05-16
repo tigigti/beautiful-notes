@@ -1,16 +1,27 @@
 .todo-list-container {
     position: relative;
-    max-height: 80vh;
-    overflow-y: auto;
-    width: 80%;
-    max-width: 400px;
+    width: 100%;
     overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0 var(--spacing);
 }
 
-.todo-list {
+.todo-list-container .todo-list-wrapper {
     width: 100%;
-    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
 }
+
+.todo-list-container .todo-list-wrapper .todo-list,
+.todo-list-container .todo-input-form {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+}
+
+/* .todo-list-container .todo-list-wrapper .todo-list {
+    padding-bottom: 24px;
+} */
 
 .todo-item {
     display: flex;
